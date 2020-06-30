@@ -1,0 +1,22 @@
+rai:
+  version: 0.2
+  image: weiren2/ece408-sp20:topic-1-enkf-test-v2
+resources:
+  cpu:
+    architecture: amd64 # use amd64 unless your project requires running on a different architecture
+  gpu:
+    count: 1
+  limits:
+    network: true
+commands:
+  build: # commands in the following seciton are executed sequentially
+    - cp -r /src .
+    - cmake /src
+    - make
+    - ./src/compute_P_HT.py
+    - ls /tmp
+    - bash -c "cp /tmp/* ." # Copy matrix files to build folder so they are included in the downloaded tarball
+    #- cmake /src
+    #- make
+    #- ./cuda-program ...
+    #- Compare accelerated version with C (or python) version ...
